@@ -18,6 +18,7 @@
 
     <div class="scores"><p>Your score is:</p></div>
     <div class="timer">Time: <span id="time">0</span></div>
+    
     <div class="container">
         <div id="start-quiz" class="begin">
             <h2>Try to anwser the following Javascript-related questions within the time limit. Keep in mind that incorrect answers will deduct from your score</h2>
@@ -25,16 +26,18 @@
         </div>  
 
         <div id="quiz" class="hide">
-            <h2 id="question"></h2>
+            <div id="question" class="question"></div>
             <div id="choices" class="choices"></div>
         </div>
-
         <hr>
+        <div id="correctAnswer" class="answer hide"></div>
 
-        <div id="correctAnswer" class="hide"></div>
+        <div id="over" class="hide">Click to see score</div>
+        <button id="score" class="hide">See score</button>
                           
         <div id="initialModal" class="modal">
             <div class="modal-content">
+                <span class="close">&times;</span>
                 <h2>All done!</h2>
                 <p>Your final score is <span id="final-score"></span>!</p>
                 <form method="POST">

@@ -5,13 +5,15 @@ var submitElement = document.querySelector("#submit");
 var modalElement = document.querySelector(".initialModal");
 var quizEl = document.querySelector("#quiz");
 var correctAnswerEl = document.querySelector("#correctAnswer")
-var questionEl = document.getElementById("#question");
+var questionEl = document.querySelector("#question");
 var choicesEl = document.querySelector("#choices");
+var scoreEl = document.querySelector("#score");
 
 var timer;
-var time= 0;
-var currentQuestion = 0;
+var time = 0;
+var currentQuestionIndex = 0;
 var score = 0;
+var secondsLeft = 60;
 
 
 //list all the questions, choices and answers
@@ -24,7 +26,7 @@ var questions = [
       "Modulus operator",
       "Inequality operator"
     ],
-    Answer : "Inequality operator"
+    answer : "Inequality operator"
   },
   {
     question : "Pick the correct Boolean values",
@@ -34,7 +36,7 @@ var questions = [
       "On or Off",
       "All of the above"
     ],
-    Answer : "True or False"
+    answer : "True or False"
   },
   {
     question : "An array is a special ____, which can hold more than one value at a time. Please fill in the blank.",
@@ -44,7 +46,7 @@ var questions = [
       "Variable",
       "Sting"
     ],
-    Answer : "Variable"
+    answer : "Variable"
   },
   {
     question : "You can access and array elemnet by referring to the ____? Please fill in the blank",
@@ -54,7 +56,7 @@ var questions = [
       "Console log",
       "class"
     ],
-    Answer : "Index number"
+    answer : "Index number"
   },
   {
     question : "What does JSON stand for?",
@@ -64,70 +66,96 @@ var questions = [
       "Javascript Object Notion",
       "Javascript operator Notation"
     ],
-    Answer : "Javascript Object Notation"
+    answer : "Javascript Object Notation"
   },
 ]
 
-// The startGame function is called when the start button is clicked
+// When the start button is clicked on the the timer will start
 function startGame() {
-  startTimer();
+  timer = setInterval(function() {
+    time = 60;
+    timeElement.innerHTML = time;
+
+    //set conditions for when time runs out
+    if (time <= 0) {
+      clearInterval(timer);
+
+      //set the end game function
+      endGame();
+    }
+  }, 1000);
+
+  var startQuizEl = document.querySelector("#start-quiz");
+  startQuizEl.setAttribute("class", "hide");
+
+  quizEl.removeAttribute("class");
+
   getQuestion();
 }
 
 function getQuestion() {
-  questionEl.removeAttribute("class");
-  var currentQuestion = questions;
+  var currentQuestion = questions[currentQuestionIndex];
 
-  var questionEl = document.getElementById("#question");
-  questionEl.textContent = currentQuestion.questionEl;
+  //var questionEl = document.getElementById("#question");
+  questionEl.textContent = currentQuestion.question;
 
-  choicesEl.innerHTML = "";
+  choicesEl.innerHTML="";
+
+  currentQuestion.options.forEach(function(choice, i) {
+    var choiceButton = document.createElement("button");
+    choiceButton.setAttribute("class" , "choice");
+    choiceButton.setAttribute("value" , "choice");
+
+    choiceButton.textContent = i + 1 + "." + choice;
+
+    choiceButton.onclick = answerClick;
+
+    choicesEl.appendChild(choiceButton);
+  });
 }
 
-// The setTimer function starts and stops the timer when the game is over
-function startTimer() {
-    time = 30;
-    document.querySelector("#time").innerHTML = time;
+function answerClick() {
+  if (this.value != questions[currentQuestionIndex].answer) {
+    score -= 1;
 
-    timer = setInterval(function() {
-      time--;
-      timeElement.innerHTML = timer;
-      if (timerCount <= 0) {
-          clearInterval(timer);
-          gameOver();
-      }
-    }, 1000);
+    if (time < 0) {
+      time = 0;
+    }
+    
+    timeElement.textContent = time;
+    correctAnswerEl.textContent = "Incorrect";
+    correctAnswerEl.style.color = "red";
+    correctAnswerEl.style.fontSize = "200%";
   }
+}
 
-  function gameOver() {
-    clearInterval(timer);
-  }
+function endGame() {
+  clearInterval(timer);
+  score.onclick();
+}
   
-
+//var modalElement = document.querySelector(".initialModal");
+//var scoreEl = document.querySelector("#score");
   //Set up Modal
+  score.onclick = function() {
+    modalElement.style.display = "block";
+  }
+  var closeModalEl = document.querySelector("close");
+
+  //closeModalEl.onclick = function() {
+    //modalElement.style.display = "none";
+  //}
+  
   submitElement.onclick = function() {
     modalElement.style.display = "none";
   }
 
   window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
+    if (event.target == modalElement) {
+      modalElement.style.display = "none";
     }
   }
 
 // Attach event listener to start button to call startGame function on click
 startButtonEl.addEventListener("click", startGame);
 
-//Add reset button
-var resetButton = document.querySelector(".reset-button");
-
-function resetGame() {
-  // Resets win and loss counts
-  winCounter = 0;
-  loseCounter = 0;
-  // Renders win and loss counts and sets them into client storage
-  setWins()
-  setLosses()
-}
-// Attaches event listener to button
-resetButton.addEventListener("click", resetGame);

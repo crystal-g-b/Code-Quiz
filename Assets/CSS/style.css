@@ -18,8 +18,7 @@ header {
     color: var(--font);
     font-family: 'Poppins', sans-serif;
     background-color: var(--darkYellow);
-    font-size: 20px;
-    
+    font-size: 20px;  
 }
 
 .scores {
