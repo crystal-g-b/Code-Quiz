@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="shortcut icon" type="image/png" href="./Assets/IMAGES/JAVASCRIPT.png"/>
     <link rel="stylesheet" type="text/css" href="Assets/CSS/style.css">
     <title>Code Quiz</title>
@@ -11,85 +12,43 @@
 <body>
     <header>
         <h1>Javascript Basics Quiz</h1>
+        <div class="scores"><p>Your score is:</p></div>
+        <div class="quiz-timer">
+            <div class="timer-text"></div>
+            <div class="timer-count">30</div>
+            <p>seconds remaining</p>
+        </div>
     </header>
 
-    <main>
-       <div class="container">
+    <div class="container">
+        <div id="start-quiz" class="begin">
+            <h2>Try to anwser the following Javascript-related questions within the time limit. Keep in mind that incorrect answers will deduct from your score</h2>
             <button id="start">Start!</button>
-            <div class="clearfix">
-                <div class="quiz-timer">
-                    <div class="timer-text"></div>
-                    <div class="timer-count">15</div>
-                    <h3>seconds remaining</h3>
-                </div>
-                <div class="first-question">
-                    <h2>"First question</h2>
-                    <form method="POST">
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                    </form>
-                </div>
-
-                <div class="second-question">
-                    <h2>"Second question</h2>
-                    <form method="POST">
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                    </form>
-                </div>
+        </div>  
+                          
+        <div id="initialModal" class="modal">
+            <div class="modal-content">
+                <h2>All done!</h2>
+                <p>Your final score is <span id="final-score"></span>!</p>
+                <form method="POST">
+                    <div class="input-group">
+                        <label for="name">Enter initials:</label>
+                        <input type="text" name="initials" id="initials" />
+                    </div>
+                    <button id="submit">Submit</button>
+                </form>
+            </div>
+        </div>   
+               
         
-                <div class="third-question">
-                    <h2>"Third question</h2>
-                    <form method="POST">
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                    </form>
-                </div>
-        
-                <div class="fourth-question">
-                    <h2>"Fourth question</h2>
-                    <form method="POST">
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                    </form>
-                </div>
-            
-                <div class="fifth-question">
-                    <h2>"Fifth question</h2>
-                    <form method="POST">
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                        <button class="choices"></button>
-                    </form>
-                </div>
-
-                <div class="all-done">
-                    <h2>All Done!</h2>
-                    <form method="POST">
-                        <div class="input-group">
-                            <label for="name">Name:</label>
-                            <input type="text" name="initials" id="initials"/>
-                        </div>
-                    </form>
-                </div>
-        
-                <div class="score">
-                    <h2>Highscore</h2>
+        <div class="score">
+            <h2>Highscore</h2>
                     <button id="start-over">Start Over!</button>
                 </div>
             </div>
         </div>
 
-    </main>
+   
     <script src="Assets/JS/script.js"></script>
 </body>
 </html>
