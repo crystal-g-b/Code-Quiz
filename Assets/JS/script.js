@@ -8,12 +8,12 @@ var correctAnswerEl = document.querySelector("#correctAnswer")
 var questionEl = document.querySelector("#question");
 var choicesEl = document.querySelector("#choices");
 var scoreEl = document.querySelector("#score");
+var overEl = document.querySelector("#over");
 
 var timer;
 var time = 0;
 var currentQuestionIndex = 0;
 var score = 0;
-var secondsLeft = 60;
 
 
 //list all the questions, choices and answers
@@ -72,18 +72,8 @@ var questions = [
 
 // When the start button is clicked on the the timer will start
 function startGame() {
-  timer = setInterval(function() {
-    time = 60;
-    timeElement.innerHTML = time;
-
-    //set conditions for when time runs out
-    if (time <= 0) {
-      clearInterval(timer);
-
-      //set the end game function
-      endGame();
-    }
-  }, 1000);
+  timer = setInterval (stopClock, 1000);
+  timeElement.textContent = time;
 
   var startQuizEl = document.querySelector("#start-quiz");
   startQuizEl.setAttribute("class", "hide");
@@ -125,19 +115,55 @@ function answerClick() {
     timeElement.textContent = time;
     correctAnswerEl.textContent = "Incorrect";
     correctAnswerEl.style.color = "red";
-    correctAnswerEl.style.fontSize = "200%";
+    correctAnswerEl.style.fontSize = "100%";
+  } else {
+    correctAnswerEl.textContent = "Correct";
+    correctAnswerEl.style.color = "green";
+    correctAnswerEl.style.fontSize = "100%";
+  }
+
+  correctAnswerEl.setAttribute("class" , "correctAnswer");
+  setTimeout(function() {
+    correctAnswerEl.setAttribute("class" , "answer hide");
+  }, 1000);
+
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex === questions.length) {
+    endGame();
+  } else {
+    getQuestion();
   }
 }
 
 function endGame() {
   clearInterval(timer);
-  score.onclick();
+
+//var scoreEl = document.querySelector("#score");
+//var overEl = document.querySelector("#over");
+
+  overEl.removeAttribute("class");
+
+  quizEl.setAttribute("class" , "hide");
+
+  scoreEl.removeAttribute("class");
+
+  scoreEl.onclick();
+}
+
+function stopClock() {
+  time--;
+  timeElement.textContent = time;
+
+  if (time <= 0) {
+    endGame();
+  }
 }
   
 //var modalElement = document.querySelector(".initialModal");
 //var scoreEl = document.querySelector("#score");
   //Set up Modal
-  score.onclick = function() {
+  scoreEl.onclick = function() {
     modalElement.style.display = "block";
   }
   var closeModalEl = document.querySelector("close");
