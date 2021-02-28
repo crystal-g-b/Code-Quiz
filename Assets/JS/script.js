@@ -1,8 +1,21 @@
-var startButtonEl = document.querySelector('#start-btn');
+var startButtonEl = document.querySelector('#start');
 var startOverButtonEl = document.querySelector('#startOver');
+var timeElement = document.querySelector("#time");
+var submitElement = document.querySelector("#submit");
+var modalElement = document.querySelector(".initialModal");
+var quizEl = document.querySelector("#quiz");
+var correctAnswerEl = document.querySelector("#correctAnswer")
+var questionEl = document.getElementById("#question");
+var choicesEl = document.querySelector("#choices");
+
+var timer;
+var time= 0;
+var currentQuestion = 0;
+var score = 0;
+
 
 //list all the questions, choices and answers
-var quiz = [
+var questions = [
   {
     question : "What type of operator is the following? !=",
     options : [
@@ -56,33 +69,54 @@ var quiz = [
 ]
 
 // The startGame function is called when the start button is clicked
-function startGame() {}
+function startGame() {
+  startTimer();
+  getQuestion();
+}
 
-// The setTimer function starts and stops the timer and triggers winGame() and loseGame()
+function getQuestion() {
+  questionEl.removeAttribute("class");
+  var currentQuestion = questions;
+
+  var questionEl = document.getElementById("#question");
+  questionEl.textContent = currentQuestion.questionEl;
+
+  choicesEl.innerHTML = "";
+}
+
+// The setTimer function starts and stops the timer when the game is over
 function startTimer() {
-    // Sets timer
+    time = 30;
+    document.querySelector("#time").innerHTML = time;
+
     timer = setInterval(function() {
-      timerCount--;
-      timerElement.textContent = timerCount;
-      if (timerCount >= 0) {
-        // Tests if win condition is met
-        if (isWin && timerCount > 0) {
-          // Clears interval and stops timer
+      time--;
+      timeElement.innerHTML = timer;
+      if (timerCount <= 0) {
           clearInterval(timer);
-          winGame();
-        }
-      }
-      // Tests if time has run out
-      if (timerCount === 0) {
-        // Clears interval
-        clearInterval(timer);
-        loseGame();
+          gameOver();
       }
     }, 1000);
   }
 
+  function gameOver() {
+    clearInterval(timer);
+  }
+  
+
+  //Set up Modal
+  submitElement.onclick = function() {
+    modalElement.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
 // Attach event listener to start button to call startGame function on click
-startButton.addEventListener("click", startGame);
+startButtonEl.addEventListener("click", startGame);
 
 //Add reset button
 var resetButton = document.querySelector(".reset-button");
