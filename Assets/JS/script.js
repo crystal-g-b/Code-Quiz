@@ -2,16 +2,18 @@ var startButtonEl = document.querySelector('#start');
 var startOverButtonEl = document.querySelector('#startOver');
 var timeElement = document.querySelector("#time");
 var submitElement = document.querySelector("#submit");
-var modalElement = document.querySelector(".initialModal");
+var modalElement = document.querySelector("#initialModal");
 var quizEl = document.querySelector("#quiz");
 var correctAnswerEl = document.querySelector("#correctAnswer")
 var questionEl = document.querySelector("#question");
 var choicesEl = document.querySelector("#choices");
 var scoreEl = document.querySelector("#score");
 var overEl = document.querySelector("#over");
+var formEl = document.querySelector("form");
+var endScreenEl =document.querySelector("#endScreen");
 
 var timer;
-var time = 0;
+var time = 10;
 var currentQuestionIndex = 0;
 var score = 0;
 
@@ -72,7 +74,14 @@ var questions = [
 
 // When the start button is clicked on the the timer will start
 function startGame() {
-  timer = setInterval (stopClock, 1000);
+  //timer = setInterval (stopClock, 1000);
+  timer = setInterval (function(){
+    console.log(time--)
+    timeElement.textContent = time;
+    if (time <= 0) {
+      endGame();
+    }
+  },1000)
   timeElement.textContent = time;
 
   var startQuizEl = document.querySelector("#start-quiz");
@@ -94,7 +103,7 @@ function getQuestion() {
   currentQuestion.options.forEach(function(choice, i) {
     var choiceButton = document.createElement("button");
     choiceButton.setAttribute("class" , "choice");
-    choiceButton.setAttribute("value" , "choice");
+    choiceButton.setAttribute("value" , choice);
 
     choiceButton.textContent = i + 1 + "." + choice;
 
@@ -149,6 +158,9 @@ function endGame() {
   scoreEl.removeAttribute("class");
 
   scoreEl.onclick();
+
+  var finalScoreEl = document.querySelector("#final-score");
+  finalScoreEl.textContent= score;
 }
 
 function stopClock() {
@@ -158,6 +170,16 @@ function stopClock() {
   if (time <= 0) {
     endGame();
   }
+}
+
+function handleInitials(event) {
+  event.preventDefault();
+  var initialEl = document.querySelector("#initials");
+  var initials = initialEl.value;
+  var playersEl = docucment.querySelector("#players");
+  playersEl.appendChild(initials);
+  modalElement.style.display = "none";
+  endScreenEl.removeAttribute("class");
 }
   
 //var modalElement = document.querySelector(".initialModal");
@@ -185,3 +207,4 @@ function stopClock() {
 // Attach event listener to start button to call startGame function on click
 startButtonEl.addEventListener("click", startGame);
 
+formEl.addEventListener("submit" , handleInitials);
