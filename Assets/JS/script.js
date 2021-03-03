@@ -13,7 +13,7 @@ var formEl = document.querySelector("form");
 var endScreenEl =document.querySelector("#endScreen");
 
 var timer;
-var time = 10;
+var time = 60;
 var currentQuestionIndex = 0;
 var score = 0;
 
